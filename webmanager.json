@@ -1,0 +1,16 @@
+{
+  "type": "app",
+  "health": "/api/health",
+  "memory_mb": 512,
+  "env": [
+    {
+      "name": "SITE_NAME",
+      "description": "Name shown in the header and on hosted pages. Can also be changed later in the admin settings.",
+      "default": "QR Studio"
+    },
+    {
+      "name": "ADMIN_EMAILS",
+      "description": "Optional. Comma-separated email addresses that become administrators when they register. The very first account created is always an administrator."
+    }
+  ]
+}

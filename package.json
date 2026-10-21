@@ -1,0 +1,24 @@
+{
+  "name": "qr-studio",
+  "version": "1.0.0",
+  "description": "Free QR code generator with dynamic codes, analytics, bulk tools, API and admin console. Runs as a WebManager app.",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "node --test test/"
+  },
+  "dependencies": {
+    "jsqr": "1.4.0",
+    "qrcode-generator": "2.0.4"
+  },
+  "optionalDependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "geoip-country": "^5.0.202610210158",
+    "jpeg-js": "0.4.4"
+  }
+}
