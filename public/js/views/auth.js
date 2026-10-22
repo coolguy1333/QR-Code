@@ -36,7 +36,7 @@ export default async function render(root, { opts, query }) {
     first && register ? h('div', { class: 'alert info' }, 'You are the first person here, so this account becomes the site administrator.') : null,
     register && state.config.registration === 'approval' && !first ? h('div', { class: 'alert info' }, 'New accounts are approved by an administrator before they can sign in.') : null,
     form,
-    h('p', { class: 'muted', style: { marginTop: '16px', marginBottom: 0 } }, register ? 'Already registered? ' : 'New here? ',
+    !register && state.config.registration === 'closed' ? null : h('p', { class: 'muted', style: { marginTop: '16px', marginBottom: 0 } }, register ? 'Already registered? ' : 'New here? ',
       h('a', { href: register ? '#/login' : '#/register' }, register ? 'Sign in' : 'Create a free account'))));
   email.focus();
 }

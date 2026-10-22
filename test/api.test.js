@@ -50,6 +50,8 @@ test('first user becomes admin; open registration afterwards', async () => {
   const r = await admin.post('/api/auth/register', { email: 'root@example.com', name: 'Root', password: pw });
   assert.equal(r.status, 200);
   assert.equal(r.json.user.role, 'admin');
+  assert.equal((await anon.post('/api/auth/register', { email: 'x@example.com', password: pw })).status, 403, 'registration is closed by default');
+  await admin.req('PUT', '/api/admin/settings', { registration: 'open' });
   const a = await alice.post('/api/auth/register', { email: 'alice@example.com', name: 'Alice', password: pw });
   assert.equal(a.json.user.role, 'user');
   assert.equal((await anon.post('/api/auth/register', { email: 'bad', password: pw })).status, 400);

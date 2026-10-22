@@ -112,7 +112,7 @@ export function renderTopbar() {
     u?.role === 'admin' ? link('/admin', 'Admin') : null);
   const right = h('div', { class: 'nav-right' },
     h('button', { class: 'btn icon', title: 'Switch theme', 'aria-label': 'Switch theme', style: { fontSize: '1.15rem' }, onclick: cycleTheme }, '◐'),
-    u ? userMenu(u) : [h('a', { class: 'btn', href: '#/login' }, 'Sign in'), state.config.registration !== 'closed' ? h('a', { class: 'btn primary', href: '#/register' }, 'Sign up free') : null]);
+    u ? userMenu(u) : (state.config.registration !== 'closed' ? [h('a', { class: 'btn', href: '#/login' }, 'Sign in'), h('a', { class: 'btn primary', href: '#/register' }, 'Sign up free')] : h('a', { class: 'btn sm', href: '#/login', style: { opacity: '.7' } }, 'Admin sign in')));
   mount($('#topbar'), h('a', { class: 'brand', href: '#/' }, h('img', { src: '/favicon.svg', alt: '' }), state.config.siteName), nav, right);
 }
 

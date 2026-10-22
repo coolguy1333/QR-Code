@@ -153,7 +153,7 @@ export function tx(fn) {
 // ---------- settings ----------
 export const SETTING_DEFAULTS = {
   siteName: config.siteName,
-  registration: 'open',         // open | approval | closed
+  registration: 'closed',       // open | approval | closed (admins add users by default)
   defaultMaxCodes: 1000,        // per user, 0 = unlimited
   maxBulk: 500,                 // rows per bulk request
   maxStorageMB: 200,            // hosted files per user, 0 = unlimited

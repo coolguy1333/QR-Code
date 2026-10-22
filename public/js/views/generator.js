@@ -84,8 +84,8 @@ export default async function render(root, { params, opts, query }) {
   const typesCard = h('div', { class: 'card' });
   function drawTypes() {
     mount(typesCard, h('div', { class: 'card-title' }, h('h2', {}, '1 · What is it for?')),
-      TYPE_GROUPS.map(g => [h('div', { class: 'group-label' }, { Link: 'Links', Contact: 'Contact', Text: 'Info', Hosted: 'Hosted pages & files' }[g]),
-        h('div', { class: 'types' }, Object.entries(TYPES).filter(([, t]) => t.group === g).map(([id, t]) => h('button', {
+      TYPE_GROUPS.filter(g => state.user || g !== 'Hosted').map(g => [h('div', { class: 'group-label' }, { Link: 'Links', Contact: 'Contact', Text: 'Info', Hosted: 'Hosted pages & files' }[g]),
+        h('div', { class: 'types' }, Object.entries(TYPES).filter(([, t]) => t.group === g && (state.user || !t.dynamicOnly)).map(([id, t]) => h('button', {
           type: 'button', class: 'type', 'aria-pressed': String(S.type === id), onclick: () => {
             S.type = id; if (TYPES[id].dynamicOnly) S.dynamic = true; drawTypes(); drawContent(); drawSave(); refresh();
           } }, h('span', { class: 'ic' }, TYPE_ICON[id]), t.label)))]));
@@ -113,7 +113,7 @@ export default async function render(root, { params, opts, query }) {
     }
     const modeBox = t.dynamicOnly
       ? h('div', { class: 'alert info' }, t.hint, ' This is always a dynamic code (hosted by this site).')
-      : h('div', { style: { marginBottom: '14px' } },
+      : !state.user ? null : h('div', { style: { marginBottom: '14px' } },
         seg([[false, 'Static'], [true, 'Dynamic']], S.dynamic, v => { S.dynamic = v === true || v === 'true'; drawContent(); drawSave(); refresh(); }),
         h('p', { class: 'hint muted', style: { margin: '8px 0 0' } }, S.dynamic
           ? 'Dynamic: the code points to a short link you control. Change the destination after printing, track scans, add an expiry date or password.'
@@ -202,6 +202,7 @@ export default async function render(root, { params, opts, query }) {
   // ---------- save / organise ----------
   const saveCard = h('div', { class: 'card' });
   function drawSave() {
+    if (!state.user && state.config.registration === 'closed') { mount(saveCard); saveCard.hidden = true; return; }
     if (!state.user) {
       mount(saveCard, h('div', { class: 'card-title' }, h('h2', {}, '4 · Save & track')),
         h('p', { class: 'muted' }, 'Free account: save your codes, create dynamic codes you can edit later, see scan analytics, bulk-create from a spreadsheet and use the API.'),
@@ -265,7 +266,7 @@ export default async function render(root, { params, opts, query }) {
   mount(root,
     existing ? h('div', { class: 'page-head' }, h('div', {}, h('h1', {}, `Edit “${existing.name}”`), h('p', {}, 'Update the content, destination or design.'))) :
       (state.user ? h('div', { class: 'page-head' }, h('div', {}, h('h1', {}, 'Create a QR code'), h('p', {}, 'Pick a type, add your content, style it and download.'))) :
-        h('div', { class: 'hero' }, h('h1', {}, 'Free QR code generator'), h('p', {}, 'Static and dynamic QR codes with your colors, logo and frame. Download PNG, SVG, PDF or EPS — no sign-up needed to start.'))),
+        h('div', { class: 'hero' }, h('h1', {}, 'Free QR code generator'), h('p', {}, 'Static and dynamic QR codes with your colors, logo and frame. Download PNG, SVG, JPG, PDF or EPS — free, no account needed.'))),
     h('div', { class: 'gen' }, left, exportCard));
   refresh();
   return () => { refresh.cancel(); testToken++; };

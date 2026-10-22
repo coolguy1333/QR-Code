@@ -18,7 +18,7 @@ A free, self-hosted QR code site: generator, dynamic codes with analytics, bulk 
 | **Scanner** | Camera or image upload, runs entirely in the browser |
 | **Admin** | Overview, users (approve, suspend, roles, per-user limits, password reset, sign-out-everywhere, delete), all codes (block/delete), abuse reports, site-wide domains, settings (registration mode, limits, announcement, blocked destination hosts, retention), audit log |
 
-The first account that registers becomes the administrator. Everything else is configured in **Admin → Settings**.
+The first account that registers becomes the administrator. Public sign-up is **closed by default**: visitors can use the generator and scanner without an account, only the admin signs in (and adds other users, or opens registration, in **Admin**).
 
 ## Deploy on WebManager
 
